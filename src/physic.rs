@@ -49,6 +49,47 @@ pub const MegaWatt  : Power = 1000 * KiloWatt;
 pub const GigaWatt  : Power = 1000 * MegaWatt;
 
 
+
+pub trait ToStringPhysic_potential {
+	fn to_string_physic_potential(self) -> String;
+}
+
+impl  ToStringPhysic_potential for  ElectricPotential {
+	fn to_string_physic_potential(self)  -> String {
+		return nanoAsString(self) + &"V";
+	}
+}
+
+pub trait ToStringPhysic_power {
+	fn to_string_physic_power(self) -> String;
+}
+
+impl ToStringPhysic_power for Power {
+	fn to_string_physic_power(self) -> String {
+		return nanoAsString(self) + &"W";
+	}
+}
+
+pub trait ToStringPhysic_current {
+	fn to_string_physic_current(self) -> String;
+}
+
+impl ToStringPhysic_current for  ElectricCurrent {
+	fn to_string_physic_current(self) -> String {
+		return nanoAsString(self) + &"A";
+	}
+}
+
+pub trait ToStringPhysic_resistance {
+	fn to_string_physic_resistance(self) -> String;
+}
+
+impl ToStringPhysic_resistance for  ElectricResistance {
+	fn to_string_physic_resistance(self) -> String {
+		return nanoAsString(self) + &"Ω";
+	}
+}
+
 pub fn nanoAsString(mut v: i64) -> String {
 	let mut sign: String = String::from("");
 	if v < 0 {

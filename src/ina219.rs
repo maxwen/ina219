@@ -13,7 +13,7 @@ use emb_hal::blocking::i2c;
 
 use std::fmt;
 
-use crate::physic;
+use crate::{physic,physic::ToStringPhysic_current,physic::ToStringPhysic_potential,physic::ToStringPhysic_power};
 
 pub const INA219_ADDR: u8 = 0x42;
 
@@ -28,7 +28,6 @@ pub struct Opts {
     MaxCurrent: physic::ElectricCurrent
 }
 
-
 impl Opts {
     pub fn new(add: u8, sense: physic::ElectricResistance,maxCurrent: physic::ElectricCurrent) -> Opts{
         Opts { 
@@ -38,14 +37,16 @@ impl Opts {
              }
     }
 
-    pub fn default() -> Opts {
-        Opts { 
+}
+
+impl Default for Opts {
+    fn default() -> Self {
+        Self {
             Address: INA219_ADDR,
             SenseResistor: 100 * physic::MilliOhm, // 0.1Ohm
-            MaxCurrent: 1 * physic::Ampere,
-             }
+            MaxCurrent: 1 * physic::Ampere,      
+        }
     }
-
 }
 
 pub struct PowerMonitor {
@@ -103,45 +104,7 @@ enum Register {
 }
 
 
-trait ToStringPhysic_potential {
-	fn to_string_physic_potential(self) -> String;
-}
 
-impl  ToStringPhysic_potential for  physic::ElectricPotential {
-	fn to_string_physic_potential(self)  -> String {
-		return physic::nanoAsString(self) + &"V";
-	}
-}
-
-trait ToStringPhysic_power {
-	fn to_string_physic_power(self) -> String;
-}
-
-impl ToStringPhysic_power for physic::Power {
-	fn to_string_physic_power(self) -> String {
-		return physic::nanoAsString(self) + &"W";
-	}
-}
-
-trait ToStringPhysic_current {
-	fn to_string_physic_current(self) -> String;
-}
-
-impl ToStringPhysic_current for  physic::ElectricCurrent {
-	fn to_string_physic_current(self) -> String {
-		return physic::nanoAsString(self) + &"A";
-	}
-}
-
-trait ToStringPhysic_resistance {
-	fn to_string_physic_resistance(self) -> String;
-}
-
-impl ToStringPhysic_resistance for  physic::ElectricResistance {
-	fn to_string_physic_resistance(self) -> String {
-		return physic::nanoAsString(self) + &"Ω";
-	}
-}
 
 
 pub struct INA219<I2C> {
