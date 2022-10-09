@@ -2,3 +2,5 @@
 linker = "arm-linux-gnueabihf-gcc"
 [target.armv7-unknown-linux-gnueabihf]
 linker = "arm-linux-gnueabihf-gcc"
+[target.aarch64-unknown-linux-musl]
+linker="aarch64-none-linux-gnu-gcc.exe"
