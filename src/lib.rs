@@ -4,9 +4,9 @@ cfg_if::cfg_if! {
         pub mod ina219;
         pub mod physic;
         extern crate embedded_hal as emb_hal;
-        extern crate byteorder;
         extern crate thiserror;
         extern crate collection_literals;
+        extern crate byteorder;
 
     } else if #[cfg(feature ="physic")] {
         pub mod error;
