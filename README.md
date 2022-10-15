@@ -1,6 +1,6 @@
 # ina219
 
-[![crates.io](https://img.shields.io/crates/v/ina219_rs.svg)](https://crates.io/crates/ina219_rs)
+[![crates.io](https://img.shields.io/crates/v/ina219_rs.svg)](https://crates.io/crates/ina219_rs) [![Rust](https://github.com/sndnvaps/ina219/actions/workflows/rust.yml/badge.svg)](https://github.com/sndnvaps/ina219/actions/workflows/rust.yml)
 
 [INA219](http://www.ti.com/product/INA219) current/power monitor driver for Rust
 
