@@ -20,7 +20,7 @@ cargo build --example physic_values --target=aarch64-unknown-linux-musl
 # Add this line to Cargo.toml for full feature support
 
 ```toml
-ina219_rs = { version = "0.3.2", features = ["ina219"] }
+ina219_rs = { version = "0.3.3", features = ["ina219"] }
 ```
 
 ```rust
@@ -59,7 +59,7 @@ fn main() {
 
 ```toml
 [dependencies.ina219_rs]
-version = "0.3.2"
+version = "0.3.3"
 default-features = false # 不包含默认的features,而是通过下面的方式来指定
 features = ["physic"]
 ```
