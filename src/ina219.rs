@@ -5,9 +5,6 @@
 #![allow(unused_parens)]
 #![allow(unused_must_use)]
 
-extern crate byteorder;
-extern crate embedded_hal as emb_hal;
-
 use byteorder::{BigEndian, ByteOrder};
 use emb_hal::blocking::i2c;
 
