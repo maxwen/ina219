@@ -1,42 +1,44 @@
-use thiserror::Error;
+use core::fmt;
 
-#[derive(Error, Debug)]
-pub enum Ina219Error {
-    #[error("Sense Resistor Value Invalid, found `{0}`")]
-    SenseResistorValueInvalid(String),
-    #[error("Max Current Invalid,found `{0}`")]
-    MaxCurrentInvalid(i64),
-}
-#[derive(Error, Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub enum PhysicError {
-    #[error("contains both plus and minus symbol")]
     BothPlusAndMinussymbols,
-    #[error("contains multiple minus symbols")]
     MultipleMinusSymbols,
-    #[error("contains multiple plus symbols")]
     MultiplePlusSymbols,
-    #[error("contains multiple decimal points")]
     MultipleDecimalPoints,
-    #[error("Err Not a Number")]
     ErrNotANumber,
-    #[error("Err Over Flows Int64 Negative")]
     ErrOverFlowsInt64Negative,
-    #[error("Err Over Flows Int64")]
     ErrOverFlowsInt64,
-    #[error("unexpected end of string -> {0}")]
     UnexpectedEndOfString(String),
-    #[error("no unit provided; need {0}")]
     NotUnitErr(String),
-    #[error("unknown unit provided; need {0}")]
     IncorrectUnitErr(String),
-    #[error("unknown unit prefix; valid prefixes for {0} are {1}")]
     UnknownUnitPrefixErr(String, String),
-    #[error("maximum value is {0}")]
     MaxValueErr(String),
-    #[error("minimum value is {0}")]
     MinValueErr(String),
-    #[error("does not contain number or unit {0}")]
     NotNumberUnitErr(String),
-    #[error("")]
     Null,
+}
+
+impl fmt::Display for PhysicError {
+    fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            PhysicError::BothPlusAndMinussymbols => write!(fmt, "contains both plus and minus symbol"),
+            PhysicError::ErrNotANumber => write!(fmt,"Err Not a Number"),
+            PhysicError::ErrOverFlowsInt64 => write!(fmt,"Err Over Flows Int64"),
+            PhysicError::ErrOverFlowsInt64Negative => write!(fmt,"Err Over Flows Int64 Negative"),
+            PhysicError::IncorrectUnitErr(ref unit) => write!(fmt,"unknown unit provided; need {}",unit),
+            PhysicError::MaxValueErr(ref max_val) => write!(fmt,"maximum value is {}",max_val),
+            PhysicError::MinValueErr(ref min_val) => write!(fmt,"minimum value is {}",min_val),
+            PhysicError::MultipleDecimalPoints => write!(fmt,"contains multiple decimal points"),
+            PhysicError::MultipleMinusSymbols => write!(fmt,"contains multiple minus symbols"),
+            PhysicError::MultiplePlusSymbols => write!(fmt,"contains multiple plus symbols"),
+            PhysicError::NotNumberUnitErr(ref unit) =>write!(fmt,"does not contain number or unit {}",unit),
+            PhysicError::NotUnitErr(ref unit) => write!(fmt,"no unit provided; need {}",unit),
+            PhysicError::Null => write!(fmt,""),
+            PhysicError::UnexpectedEndOfString(ref unexpect) => write!(fmt,"unexpected end of string -> {}",unexpect),
+            PhysicError::UnknownUnitPrefixErr(ref provide,ref need ) => write!(fmt,"unknown unit prefix; valid prefixes for {} are {}",provide,need),
+        }
+    }
+    
+    
 }

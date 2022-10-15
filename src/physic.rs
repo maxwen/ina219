@@ -100,7 +100,7 @@ impl ToStringPhysic_resistance for ElectricResistance {
     }
 }
 
-pub fn nanoAsString(mut v: i64) -> String {
+fn nanoAsString(mut v: i64) -> String {
     let mut sign: String = String::from("");
     if v < 0 {
         if v == -9223372036854775808 {
@@ -187,7 +187,7 @@ pub fn nanoAsString(mut v: i64) -> String {
     return sign + &base.to_string() + &".".to_string() + &prefixZeros(3, frac) + &unit;
 }
 
-pub fn prefixZeros(digits: i32, v: i32) -> String {
+fn prefixZeros(digits: i32, v: i32) -> String {
     let mut s = v.to_string();
     let mut str_len = s.len() as i32;
     while str_len < digits {
@@ -290,7 +290,7 @@ fn dtoi(d: decimal, scale: i32) -> (i64, bool) {
 }
 
 //Reverse the string
-pub fn reverse(input: &str) -> String {
+fn reverse(input: &str) -> String {
     let mut output = String::new();
     for c in input.chars().rev() {
         output.push(c)

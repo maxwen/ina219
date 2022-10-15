@@ -14,13 +14,12 @@ license = "MIT/Apache-2.0"
 cfg-if = "1.0.0"
 embedded-hal = { version = "0.2", optional = true }
 collection_literals = { version = "1.0.1", optional = true }
-thiserror = { version = "1.0", optional = true }
 byteorder = {version = "1.2.1", default-features = false, optional = true }
 
 [features]
 default = ["ina219"]
-physic = ["dep:thiserror","dep:collection_literals"]
-ina219 = ["dep:thiserror","dep:collection_literals","dep:byteorder","dep:embedded-hal"]
+physic = ["dep:collection_literals"]
+ina219 = ["dep:collection_literals","dep:byteorder","dep:embedded-hal"]
 
 [dev-dependencies]
 linux-embedded-hal = "0.2"
