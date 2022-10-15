@@ -788,7 +788,7 @@ impl PhysicElectricPotentialSet for ElectricPotential {
             let val = Option::Some(r);
             match val {
                 Some(val) if val.contains("V") || val.contains("v") => {
-                    let c: ElectricResistance = v as ElectricResistance;
+                    let c: ElectricPotential = v as ElectricPotential;
                     Ok::<Self::T, Self::E>(c);
                 }
                 Some(val) if val == "" => {

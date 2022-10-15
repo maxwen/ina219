@@ -9,18 +9,18 @@
 ```bash
 cargo build --example values --target=aarch64-unknown-linux-musl
 cargo build --example raw_values --target=aarch64-unknown-linux-musl
+cargo build --example physic_values --target=aarch64-unknown-linux-musl
 ```
 
 ## support features
 
-1. all => ina219
-2. ina219 feature contain physic
-3. physic
+1. ina219 feature contain physic
+2. physic
 
 # Add this line to Cargo.toml for full feature support
 
 ```toml
-ina219_rs = { version = "0.3.1", features = ["all"] }
+ina219_rs = { version = "0.3.2", features = ["ina219"] }
 ```
 
 ```rust
@@ -58,7 +58,10 @@ fn main() {
 ## Only support <strong>physic</strong> featute
 
 ```toml
-ina219_rs = { version = "0.3.1", features = ["physic"] }
+[dependencies.ina219_rs]
+version = "0.3.2"
+default-features = false # 不包含默认的features,而是通过下面的方式来指定
+features = ["physic"]
 ```
 
 ```rust
