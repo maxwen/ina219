@@ -7,7 +7,9 @@
 
 use crate::error::PhysicError;
 use collection_literals::collection;
-use std::collections::HashMap;
+use hashbrown::HashMap;
+
+use alloc::string::{ToString,String};
 
 //ElectricCurrent is a measurement of a flow of electric charge stored as an int64 nano Ampere.
 pub type ElectricCurrent = i64;

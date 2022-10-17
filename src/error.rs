@@ -1,5 +1,5 @@
 use core::fmt;
-
+use alloc::string::String;
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum PhysicError {
     BothPlusAndMinussymbols,
@@ -38,7 +38,5 @@ impl fmt::Display for PhysicError {
             PhysicError::UnexpectedEndOfString(ref unexpect) => write!(fmt,"unexpected end of string -> {}",unexpect),
             PhysicError::UnknownUnitPrefixErr(ref provide,ref need ) => write!(fmt,"unknown unit prefix; valid prefixes for {} are {}",provide,need),
         }
-    }
-    
-    
+    }   
 }

@@ -8,7 +8,8 @@
 use byteorder::{BigEndian, ByteOrder};
 use emb_hal::blocking::i2c;
 
-use std::fmt;
+use core::fmt;
+use alloc::string::String;
 
 use crate::{
     physic, physic::ToStringPhysic_current, physic::ToStringPhysic_potential,
@@ -69,7 +70,7 @@ impl PowerMonitor {
     }
 }
 
-impl std::fmt::Display for PowerMonitor {
+impl fmt::Display for PowerMonitor {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
@@ -79,7 +80,7 @@ impl std::fmt::Display for PowerMonitor {
     }
 }
 
-impl std::fmt::Debug for PowerMonitor {
+impl fmt::Debug for PowerMonitor {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "Debug: PowerMonitor \n{{\n\tVoltage = {},\n\tShunt_Voltage = {},\n\tCurrent = {},\n\tPower = {} \n}}",
         self.Voltage,
@@ -110,7 +111,7 @@ pub struct INA219<I2C> {
 impl<I2C, E> INA219<I2C>
 where
     I2C: i2c::Write<Error = E> + i2c::Read<Error = E>,
-    E: std::fmt::Debug,
+    E: fmt::Debug,
 {
     pub fn new(i2c: I2C, opts: Opts) -> INA219<I2C> {
         INA219 {

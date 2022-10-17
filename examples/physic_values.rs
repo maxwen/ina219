@@ -4,6 +4,7 @@ use ina219::{
     physic::PhysicPowerSet, physic::ToStringPhysic_current, physic::ToStringPhysic_potential,
     physic::ToStringPhysic_power,
 };
+use core::fmt;
 
 fn main() {
     let current_test = physic::ElectricCurrent::setCurrent("+15mA");
