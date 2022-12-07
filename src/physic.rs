@@ -3,11 +3,12 @@
 #![allow(dead_code)]
 #![allow(non_snake_case)]
 #![allow(unused_assignments)]
-#![allow(const_err)]
+#![allow(unused_must_use)]
 
 use crate::error::PhysicError;
 use collection_literals::collection;
 use hashbrown::HashMap;
+use lazy_static::lazy_static;
 
 use alloc::string::{ToString,String};
 
@@ -62,13 +63,14 @@ pub const GigaWatt: Power = 1000 * MegaWatt;
 pub const maxPower: Power = 9223372036854775807 * NanoWatt;
 pub const minPower: Power = -9223372036854775807 * NanoWatt;
 
+
 pub trait ToStringPhysic_potential {
     fn to_string_physic_potential(self) -> String;
 }
 
 impl ToStringPhysic_potential for ElectricPotential {
     fn to_string_physic_potential(self) -> String {
-        return nanoAsString(self) + &"V";
+        return nanoAsString(self) + "V";
     }
 }
 
@@ -78,7 +80,7 @@ pub trait ToStringPhysic_power {
 
 impl ToStringPhysic_power for Power {
     fn to_string_physic_power(self) -> String {
-        return nanoAsString(self) + &"W";
+        return nanoAsString(self) + "W";
     }
 }
 
@@ -88,7 +90,7 @@ pub trait ToStringPhysic_current {
 
 impl ToStringPhysic_current for ElectricCurrent {
     fn to_string_physic_current(self) -> String {
-        return nanoAsString(self) + &"A";
+        return nanoAsString(self) + "A";
     }
 }
 
@@ -98,7 +100,7 @@ pub trait ToStringPhysic_resistance {
 
 impl ToStringPhysic_resistance for ElectricResistance {
     fn to_string_physic_resistance(self) -> String {
-        return nanoAsString(self) + &"Ω";
+        return nanoAsString(self) + "Ω";
     }
 }
 
@@ -145,7 +147,7 @@ fn nanoAsString(mut v: i64) -> String {
             }
             frac = base % 1000;
             base = base / 1000;
-            unit = "k".to_string();
+            unit = String::from("k");
         }
         Some(v) if v >= 999999501 => {
             precision = v % 1000000;
@@ -155,7 +157,7 @@ fn nanoAsString(mut v: i64) -> String {
             }
             frac = base % 1000;
             base = base / 1000;
-            unit = "".to_string();
+            unit = String::from("");
         }
         Some(v) if v >= 1000000 => {
             precision = v % 1000;
@@ -165,19 +167,19 @@ fn nanoAsString(mut v: i64) -> String {
             }
             frac = base % 1000;
             base = base / 1000;
-            unit = "m".to_string();
+            unit = String::from("m");
         }
         Some(v) if v >= 1000 => {
             frac = (v as i32) % 1000;
             base = (v as i32) / 1000;
-            unit = "µ".to_string();
+            unit = String::from("µ");
         }
         Some(v) if 0 < v && v < 1000 => {
             base = v as i32;
-            unit = "n".to_string();
+            unit = String::from("n");
         }
         Some(v) if v == 0 => {
-            return "0".to_string();
+            return String::from("0");
         }
         None => {}
         _ => panic!(),
@@ -186,14 +188,14 @@ fn nanoAsString(mut v: i64) -> String {
     if frac == 0 {
         return sign + &base.to_string() + &unit;
     }
-    return sign + &base.to_string() + &".".to_string() + &prefixZeros(3, frac) + &unit;
+    return sign + &base.to_string() + &String::from(".") + &prefixZeros(3, frac) + &unit;
 }
 
 fn prefixZeros(digits: i32, v: i32) -> String {
     let mut s = v.to_string();
     let mut str_len = s.len() as i32;
     while str_len < digits {
-        s = "0".to_string() + &s;
+        s = String::from("0") + &s;
         str_len += 1;
     }
     return s;
@@ -209,30 +211,34 @@ pub struct decimal {
 }
 
 // Positive powers of 10 in the form such that powerOF10[index] = 10^index.
-fn PowerOfTen(index: u64) -> u64 {
-    let powerOfTen: HashMap<u64, u64> = collection! {
-        0 => 1,
-        1 => 10,
-        2 => 100,
-        3 => 1000,
-        4 => 10000,
-        5 => 100000,
-        6 => 1000000,
-        7 => 10000000,
-        8 => 100000000,
-        9 => 1000000000,
-        10 => 10000000000,
-        11 => 100000000000,
-        12 => 1000000000000,
-        13 => 10000000000000,
-        14 => 100000000000000,
-        15 => 1000000000000000,
-        16 => 10000000000000000,
-        17 => 100000000000000000,
-        18 => 1000000000000000000,
+lazy_static!{
+    pub static ref PowerOfTen: HashMap<u64,u64> =  {
+        let powerOfTen: HashMap<u64, u64> = collection! {
+            0 => 1,
+            1 => 10,
+            2 => 100,
+            3 => 1000,
+            4 => 10000,
+            5 => 100000,
+            6 => 1000000,
+            7 => 10000000,
+            8 => 100000000,
+            9 => 1000000000,
+            10 => 10000000000,
+            11 => 100000000000,
+            12 => 1000000000000,
+            13 => 10000000000000,
+            14 => 100000000000000,
+            15 => 1000000000000000,
+            16 => 10000000000000000,
+            17 => 100000000000000000,
+            18 => 1000000000000000000,
     };
-    powerOfTen[&index]
+    powerOfTen
+};
+
 }
+
 // Converts from decimal to int64.
 //
 // Scale is combined with the decimal exponent to maximise the resolution and is
@@ -258,7 +264,7 @@ fn dtoi(d: decimal, scale: i32) -> (i64, bool) {
     // scale == 9 means unit == 0
     if scale == 9 && 0 < d.base && d.base < 1000 {
         mag = d.exp + scale - 1;
-        u *= PowerOfTen(mag as u64);
+        u *= PowerOfTen.get(&(mag as u64)).unwrap();
         n = u as i64;
         if d.neg {
             n = -n;
@@ -268,7 +274,7 @@ fn dtoi(d: decimal, scale: i32) -> (i64, bool) {
     let val = Option::Some(mag);
     match val {
         Some(val) if val < 0 => {
-            u = (u + PowerOfTen(mag as u64) / 2) / PowerOfTen(mag as u64);
+            u = (u + PowerOfTen.get(&(mag as u64)).unwrap() / 2) / PowerOfTen.get(&(mag as u64)).unwrap();
         }
         Some(val) if val == 0 => {
             if (u as i64) > maxInt64 {
@@ -276,11 +282,11 @@ fn dtoi(d: decimal, scale: i32) -> (i64, bool) {
             }
         }
         _ => {
-            let check = u * PowerOfTen(mag as u64);
-            if check / PowerOfTen(mag as u64) != u || check as i64 > maxInt64 {
+            let check = u * PowerOfTen.get(&(mag as u64)).unwrap();
+            if check / PowerOfTen.get(&(mag as u64)).unwrap() != u || check as i64 > maxInt64 {
                 return (0, true);
             }
-            u *= PowerOfTen(mag as u64);
+            u *= PowerOfTen.get(&(mag as u64)).unwrap();
         }
     }
     n = u as i64;
@@ -306,7 +312,6 @@ fn reverse(input: &str) -> String {
 // Significant digits are stored without leading or trailing zeros, rather a
 // base and exponent is used. Significant digits are stored as uint64, max size
 // of significant digits is int64
-
 fn atod(s: &str) -> (decimal, usize, PhysicError) {
     let mut start: usize = 0;
     let mut end = s.len();

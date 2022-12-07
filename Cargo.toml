@@ -1,20 +1,18 @@
 [package]
 name = "ina219_rs"
 description = "INA219 current/power monitor driver"
-version = "0.5.0"
+version = "0.5.1"
 keywords = ["ina219", "driver", "i2c", "current", "no_std"]
 repository = "https://github.com/sndnvaps/ina219"
 authors = ["Scott Nelson <scott@scottnelson.co>","Samuel Freeman <admin@sndnvaps.com>"]
 license = "MIT/Apache-2.0"
-
-
-
 
 [dependencies]
 cfg-if = "1.0.0"
 embedded-hal = { version = "0.2", optional = true }
 collection_literals = { version = "1.0.1", optional = true }
 byteorder = {version = "1.2.1", default-features = false, optional = true }
+lazy_static = {version = "1.4.0",optional = true }
 [dependencies.hashbrown]
 version = "0.12"
 default-features = false
@@ -24,8 +22,8 @@ optional = true
 
 [features]
 default = ["ina219"]
-physic = ["dep:hashbrown","dep:collection_literals"]
-ina219 = ["dep:hashbrown","dep:collection_literals","dep:byteorder","dep:embedded-hal"]
+physic = ["dep:hashbrown","dep:collection_literals","dep:lazy_static"]
+ina219 = ["dep:hashbrown","dep:collection_literals","dep:lazy_static","dep:byteorder","dep:embedded-hal"]
 
 [dev-dependencies]
 linux-embedded-hal = "0.2"

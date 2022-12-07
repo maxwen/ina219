@@ -11,10 +11,12 @@ cfg_if::cfg_if! {
         extern crate byteorder;
         extern crate hashbrown;
         extern crate collection_literals;
+        extern crate lazy_static;
     } else if #[cfg(feature ="physic")] {
         pub mod error;
         pub mod physic;
         extern crate collection_literals;
+        extern crate lazy_static;
         extern crate hashbrown;
     }
 }
