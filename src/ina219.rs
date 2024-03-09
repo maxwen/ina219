@@ -106,11 +106,12 @@ const INA219_CONFIG_MODE_BVOLT_CONTINUOUS: u16 = 0x06;
 /**< bus voltage continuous */
 const INA219_CONFIG_MODE_SANDBVOLT_CONTINUOUS: u16 = 0x07;
 
+#[derive(Clone)]
 pub struct PowerMonitor {
-    Shunt: f32,
-    Voltage: f32,
-    Current: f32,
-    Power: f32,
+    pub Shunt: f32,
+    pub Voltage: f32,
+    pub Current: f32,
+    pub Power: f32,
 }
 
 impl PowerMonitor {
