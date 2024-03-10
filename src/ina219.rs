@@ -10,6 +10,7 @@ use core::convert::TryInto;
 use core::fmt;
 
 use embedded_hal::i2c::I2c;
+use enum_iterator::Sequence;
 
 pub const INA219_ADDR: u8 = 0x40;
 
@@ -146,6 +147,13 @@ impl fmt::Debug for PowerMonitor {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, Sequence)]
+pub enum Calibration {
+    Calibration_32V_2A,
+    Calibration_32V_1A,
+    Calibration_16V_400mA,
+}
+
 pub struct Register;
 
 impl Register {
@@ -175,8 +183,12 @@ impl<I2C: I2c> INA219<I2C>
         }
     }
 
-    pub fn init(&mut self) -> Result<(), I2C::Error> {
-        self.setCalibration_16V_400mA()
+    pub fn init(&mut self, cal: Calibration) -> Result<(), I2C::Error> {
+        match cal {
+            Calibration::Calibration_32V_2A => { self.setCalibration_32V_2A() }
+            Calibration::Calibration_32V_1A => { self.setCalibration_32V_1A() }
+            Calibration::Calibration_16V_400mA => { self.setCalibration_16V_400mA() }
+        }
     }
 
     fn setCalibration_32V_2A(&mut self) -> Result<(), I2C::Error> {
